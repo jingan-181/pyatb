@@ -2,6 +2,15 @@ PYATB, Python ab initio tight binding simuation package, a python package for co
 
 Quick start:
 
+Get the source
+'''
+git clone --recursive https://github.com/jingan-181/pyatb.git
+cd pyatb
+# if you are updating an existing checkout
+git submodule sync
+git submodule update --init --recursive
+'''
+
 Install depandency:
 ```
 sudo apt install libeigen3-dev libmkl-dev
