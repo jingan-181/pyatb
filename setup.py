@@ -12,7 +12,7 @@ os.environ["CXX"] = CXX
 os.environ["CC"] = CXX
 os.environ['CFLAGS'] = "-O2 -std=c++11 -fPIC -Wall -shared"
 
-include_dirs = ["src/core","/usr/include/eigen3", "/usr/include/mkl"]
+include_dirs = [os.path.join("src", "core"), os.path.join("src", "interface_python"), "/usr/include/eigen3", "/usr/include/mkl"]
 extra_compile_args = []
 extra_link_args = []
 if CXX == "g++":
@@ -31,16 +31,12 @@ undef_macros = []
 extension = [
         Extension('pyatb.interface_python',
                       include_dirs=include_dirs,
-                      sources=sorted(glob("src/core/*.cpp")),
+                      sources=sorted(glob("src/core/*.cpp"))+sorted(glob("src/interface_python/*.cpp")),
                       extra_compile_args=extra_compile_args,
                       extra_link_args=extra_link_args,
                       define_macros=define_macros,
                       undef_macros=undef_macros, 
                       ),
-        Pybind11Extension("python_interface",
-                      include_dirs=include_dirs,
-            sources=sorted(glob("src/interface_python/*.cpp")),
-        ),
 ]
 
 setup(name='pyatb',
