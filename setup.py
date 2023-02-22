@@ -29,7 +29,7 @@ define_macros = []
 undef_macros = []
 
 extension = [
-        Extension('pyatb.interface_python',
+        Pybind11Extension('pyatb.interface_python',
                       include_dirs=include_dirs,
                       sources=sorted(glob("src/core/*.cpp"))+sorted(glob("src/interface_python/*.cpp")),
                       extra_compile_args=extra_compile_args,

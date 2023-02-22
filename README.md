@@ -4,7 +4,7 @@ Quick start:
 
 Install depandency:
 ```
-sudo apt install libeigen3-dev pybind11-dev libmkl-dev
+sudo apt install libeigen3-dev libmkl-dev
 ```
 Build PYATB:
 ```
