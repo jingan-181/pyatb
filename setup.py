@@ -19,7 +19,7 @@ extra_compile_args = []
 extra_link_args = []
 if CXX == "g++":
     extra_compile_args += ["-fopenmp"]
-    LAPACK_LIB = "-L"+os.path.join(distutils.sysconfig.PREFIX, 'lib')+" -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core"
+    LAPACK_LIB = "-L"+os.path.join(distutils.sysconfig.PREFIX, 'lib')+" -Wl,--start-group -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core  -Wl,--end-group -Wl,-rpath="+os.path.join(distutils.sysconfig.PREFIX, 'lib')
 else:
     extra_compile_args += ["-qopenmp"]
     LAPACK_DIR = "/opt/intel/compilers_and_libraries_2018.1.163/linux/mkl"
