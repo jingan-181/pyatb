@@ -10,10 +10,6 @@ cd pyatb
 git submodule sync
 git submodule update --init --recursive
 ```
-Install depandency:
-```
-sudo apt install libeigen3-dev libmkl-dev
-```
 Build PYATB:
 ```
 python3 setup.py install
