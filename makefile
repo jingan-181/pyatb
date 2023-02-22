@@ -21,7 +21,7 @@ interface_python.o
 HONG = -D__MPI
 
 # 用于make指令搜索源文件的路径
-VPATH = ./cpp/:./cpp/src/interface_python/:./cpp/src/core/
+VPATH = ./src/:./src/interface_python/:./src/core/
 
 # 编译器和库地址
 
@@ -35,18 +35,17 @@ PYTHON_LIB = $(shell python3-config --includes)
 LAPACK_INCLUDE_DIR = $(LAPACK_DIR)/include
 LAPACK_LIB_DIR     = $(LAPACK_DIR)/lib/intel64
 LAPACK_LIB         = -L$(LAPACK_LIB_DIR) -Wl,--start-group -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -Wl,--end-group -Wl,-rpath=$(LAPACK_LIB_DIR)
-MY_INCLUDE = ./cpp/include/
 
 
 # 存放编译后obj文件
-OBJPATH = ./cpp/obj
+OBJPATH = ./build/obj
 
 # 替换objects为OBJPATH中的文件
 OBJS = $(patsubst %.o, $(OBJPATH)/%.o, $(objects))
 
 # 所有命令行必须以Tab键开始
 interface_python: $(OBJPATH) $(OBJS)
-	$(CC) $(CFLAG) $(OBJS) -I$(LAPACK_INCLUDE_DIR) -lpthread -liomp5 $(LAPACK_LIB) -I$(MY_INCLUDE) -I$(PYTHON_LIB) -o ./pyatb/interface_python.so
+	$(CC) $(CFLAG) $(OBJS) -I$(LAPACK_INCLUDE_DIR) -lpthread -liomp5 $(LAPACK_LIB) -I$(PYTHON_LIB) -o ./pyatb/interface_python.so
 
 # 每个单独cpp文件编译的简写形式,等价于:
 # myfunction.o:
