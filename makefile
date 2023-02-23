@@ -26,23 +26,24 @@ VPATH = ./src/:./src/interface_python/:./src/core/
 # 编译器和库地址
 
 ## 用户修改参数
-CC = icpc
-CFLAG = -O2 -std=c++11 -fPIC -Wall -shared -qopenmp
-LAPACK_DIR = $(MKLROOT)
+CC = g++
+CFLAG = -O2 -std=c++11 -fPIC -Wall -shared -fopenmp
+LAPACK_DIR = /home/goodchong/python_venv
 PYTHON_LIB = $(shell python3-config --includes)
 
 ## 一般不需要修改
 LAPACK_INCLUDE_DIR = $(LAPACK_DIR)/include
-LAPACK_LIB_DIR     = $(LAPACK_DIR)/lib/intel64
+LAPACK_LIB_DIR     = $(LAPACK_DIR)/lib64
 LAPACK_LIB         = -L$(LAPACK_LIB_DIR) -Wl,--start-group -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -Wl,--end-group -Wl,-rpath=$(LAPACK_LIB_DIR)
 
+PYBIND11_INC = /home/goodchong/python_venv/lib/python3.10/site-packages/pybind11/include
 
 # 存放编译后obj文件
 OBJPATH = ./build/obj
 
 # 替换objects为OBJPATH中的文件
 OBJS = $(patsubst %.o, $(OBJPATH)/%.o, $(objects))
-
+MY_INCLUDE= /home/goodchong/python_venv/lib/python3.10/site-packages/cmeel.prefix/include/eigen3
 # 所有命令行必须以Tab键开始
 interface_python: $(OBJPATH) $(OBJS)
 	$(CC) $(CFLAG) $(OBJS) -I$(LAPACK_INCLUDE_DIR) -lpthread -liomp5 $(LAPACK_LIB) -I$(PYTHON_LIB) -o ./pyatb/interface_python.so
@@ -53,7 +54,7 @@ interface_python: $(OBJPATH) $(OBJS)
 	
 # $< 是 目标的第一个依赖; $@ 是 目标; $^ 是 目标的所有依赖.
 $(OBJPATH)/%.o: %.cpp
-	$(CC) $(CFLAG) -c -I$(MY_INCLUDE) -I$(PYTHON_LIB) $< -o $@
+	$(CC) $(CFLAG) -I$(PYBIND11_INC) -I$(MY_INCLUDE) -I$(LAPACK_INCLUDE_DIR) -I$(PYTHON_LIB) $< -o $@
 
 
 $(OBJPATH):

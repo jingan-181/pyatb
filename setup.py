@@ -15,21 +15,24 @@ os.environ["CC"] = CXX
 #os.environ['CFLAGS'] = "-O2 -static -std=c++11 -fPIC -Wall"
 
 include_dirs = [os.path.join("src", "core"), os.path.join("src", "interface_python"),os.path.join(distutils.sysconfig.PREFIX, 'include'), os.path.join(get_python_lib(plat_specific=1), 'cmeel.prefix/include/eigen3/')]
+print(include_dirs)
 extra_compile_args = []
 extra_link_args = []
 if CXX == "g++":
     extra_compile_args += ["-fopenmp"]
-    LAPACK_LIB = "-L"+os.path.join(distutils.sysconfig.PREFIX, 'lib')+" -Wl,--start-group -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core  -Wl,--end-group -Wl,-rpath="+os.path.join(distutils.sysconfig.PREFIX, 'lib')
+    LAPACK_LIB_DIR = os.path.join(distutils.sysconfig.PREFIX, 'lib')
 else:
     extra_compile_args += ["-qopenmp"]
     LAPACK_DIR = "/opt/intel/compilers_and_libraries_2018.1.163/linux/mkl"
     LAPACK_INCLUDE_DIR = LAPACK_DIR + "/include"
     LAPACK_LIB_DIR = LAPACK_DIR + "/lib/intel64"
-    LAPACK_LIB = "-L" + LAPACK_LIB_DIR + " -Wl,--start-group -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -Wl,--end-group -Wl,-rpath=" + LAPACK_LIB_DIR
+
+LAPACK_LIB = "-L" + LAPACK_LIB_DIR + " -Wl,--start-group -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -Wl,--end-group -Wl,-rpath=" + LAPACK_LIB_DIR
 
 
+os.environ["LDFLAGS"] = LAPACK_LIB
 
-extra_link_args += [LAPACK_LIB]
+#extra_link_args += [LAPACK_LIB]
 
 define_macros = []
 undef_macros = []
